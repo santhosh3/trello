@@ -33,18 +33,6 @@ function Boards() {
     setBoard({ isOpen: false });
 }
 
-const createBoard = () => {
-  API.createBoards()
-      .then((res) => {
-          const newBoards = [...Boards];
-          newBoards.push(res);
-          setBoard({
-              boards: newBoards,
-              isOpen: false,
-          })
-      })
-}
-
 const newName = (e) => {
   let {value} = e.target
   console.log(value)
