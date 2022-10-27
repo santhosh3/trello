@@ -7,8 +7,8 @@ export const getAllBoards = async() => {
         .then(res => res.data).catch(err => {throw new Error(err)});
 }
 
-export const createBoards = (name) => {
-    return axios.post(`https://api.trello.com/1/boards/?name=${name}&key=${key}&token=${token}`)
+export const createBoards = async(name) => {
+    return await axios.post(`https://api.trello.com/1/boards/?name=${name}&key=${key}&token=${token}`)
         .then(res => res.data);
 }
 
