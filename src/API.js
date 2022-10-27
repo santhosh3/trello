@@ -12,18 +12,18 @@ export const createBoards = async(name) => {
         .then(res => res.data);
 }
 
-export const getList = (id) => {
-    return axios.get(`https://api.trello.com/1/boards/${id}/lists?key=${key}&token=${token}`)
+export const getList = async(id) => {
+    return await axios.get(`https://api.trello.com/1/boards/${id}/lists?key=${key}&token=${token}`)
         .then(res => res.data);
 }
 
-export const createList = (id, name) => {
-    return axios.post(`https://api.trello.com/1/lists?name=${name}&idBoard=${id}&key=${key}&token=${token}`)
+export const createList = async(id, name) => {
+    return await axios.post(`https://api.trello.com/1/lists?name=${name}&idBoard=${id}&key=${key}&token=${token}`)
         .then(res => res.data);
 }
 
-export const getCard = (listId) => {
-    return axios.get(`https://api.trello.com/1/lists/${listId}/cards?key=${key}&token=${token}`)
+export const getCard = async (listId) => {
+    return await axios.get(`https://api.trello.com/1/lists/${listId}/cards?key=${key}&token=${token}`)
         .then(res => res.data);
 }
 

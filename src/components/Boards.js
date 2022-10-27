@@ -24,6 +24,7 @@ function Boards() {
     boards:[],
     boardName:'',
     isLoading:true,
+    isOpen:false
   })
  console.log(Board);
   useEffect(() => {
@@ -86,7 +87,7 @@ const createBoard = () => {
     <Box bg="gray.200" w="20rem" h="10rem" textAlign="center">
        <Button bg="gray.200" mt={14} onClick={onOpen}>Create new board</Button>
        </Box>
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen}>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Create a board</ModalHeader>
