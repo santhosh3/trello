@@ -2,48 +2,48 @@ import axios from "axios";
 const key = '8ec7c2477c8d53b63815556eb5283770';
 const token = '40e742becdd3afe0435fc30ad4274455d29eca100933bdf292dd5caff6ce2717';
 
-export const getAllBoards = async() => {
+export const getAllBoards = async() => { // done
     return await axios.get(`https://api.trello.com/1/members/me/boards?fields=name,url&filter=open&key=${key}&token=${token}`)
         .then(res => res.data).catch(err => {throw new Error(err)});
 }
 
-export const createBoards = async(name) => {
+export const createBoards = async(name) => {  // done
     return await axios.post(`https://api.trello.com/1/boards/?name=${name}&key=${key}&token=${token}`)
         .then(res => res.data);
 }
 
-export const getList = async(id) => {
+export const getList = async(id) => {   // done
     return await axios.get(`https://api.trello.com/1/boards/${id}/lists?key=${key}&token=${token}`)
         .then(res => res.data);
 }
 
-export const createList = async(id, name) => {
+export const createList = async(id, name) => {  // done
     return await axios.post(`https://api.trello.com/1/lists?name=${name}&idBoard=${id}&key=${key}&token=${token}`)
         .then(res => res.data);
 }
 
-export const getCard = async (listId) => {
+export const getCard = async (listId) => {      //done
     return await axios.get(`https://api.trello.com/1/lists/${listId}/cards?key=${key}&token=${token}`)
         .then(res => res.data);
 }
 
 
-export const createCard = (id, name) => {
-    return axios.post(`https://api.trello.com/1/cards?idList=${id}&name=${name}&key=${key}&token=${token}`)
+export const createCard = async (id, name) => {   //done
+    return await axios.post(`https://api.trello.com/1/cards?idList=${id}&name=${name}&key=${key}&token=${token}`)
         .then(res => res.data);
 }
 
-export const deleteCard = (cardId) => {
+export const deleteCard = (cardId) => {     //done
     return axios.delete(`https://api.trello.com/1/cards/${cardId}?key=${key}&token=${token}`)
         .then(res => res.data);
 }
 
-export const deleteList = (id, value) => {
+export const deleteList = (id, value) => {   //done
     return axios.put(`https://api.trello.com/1/lists/${id}/closed?value=${value}&key=${key}&token=${token}`)
         .then(res => res.data);
 }
 
-export const getChecklist = (cardId) => {
+export const getChecklist = (cardId) => {       
     return  axios.get(`https://api.trello.com/1/cards/${cardId}/checklists?key=${key}&token=${token}`)
         .then(res => res.data);
 }

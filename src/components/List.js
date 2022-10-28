@@ -19,6 +19,7 @@ function List() {
   })
   
   const [ListName, setListName] = useState('');
+
   useEffect(() => {
     const id = params.id
     API.getList(id)
@@ -33,12 +34,11 @@ function List() {
     .then((res) => {
      const newList = Lists.list.filter((list) => list.id !== id)
      setList({list:newList})
-    })
+    }).catch((err) => console.log(err))
  }
  
  const HandleChange = (e) => {
     let {value} = e.target;
-    console.log(value);
     setListName(value);
   }
   
@@ -49,9 +49,7 @@ function List() {
     const newLists = [...Lists.list]
     newLists.push(res);
     setList({list:newLists, isOpen:false})
-  }).then(
-    setListName(' ')
-  )
+  }).then(() => onClose())
  }
 
  const comeBack = () => {
@@ -61,13 +59,14 @@ function List() {
   return (
     <Box backgroundImage="url('https://www.preppywallpapers.com/wp-content/uploads/2020/02/Cute-iPhone-Wallpaper-Collection.jpg')"
          h='100vh'
-         bgRepeat="no-repeat"
+         width='100%'
          backgroundPosition="center"
          backgroundSize="cover"
     >
-      <Box m={3}>
-      <Button onClick={comeBack} cursor="pointer" >Back</Button>
+      <Box mt={3}>
+      <Button m={3} onClick={comeBack} cursor="pointer" >Back</Button>
       </Box>
+      <Box display='flex'>
       {
         !Lists.isLoading?(
           Lists.list.map((list) => {
@@ -81,7 +80,7 @@ function List() {
                     </Box> 
                     </Box>
                     <Box>
-                    <CardDetails />  
+                        <CardDetails  listId={list.id}/>  
                     </Box>  
                     </Box>
                 </Box>
@@ -89,12 +88,13 @@ function List() {
         })
         ):(<Heading as="h1">Loading......</Heading>)
       }
-    <Box mt="5rem" ml="2rem">
-       <Button bg="gray.200" mt={14} onClick={onOpen}>Create new board</Button>
+      
+    <Box ml="2rem">
+       <Button bg="gray.200" mt={5} onClick={onOpen}>Create new lists</Button>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Create a board</ModalHeader>
+            <ModalHeader>Create a list</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <Input placeholder='Enter board title' onChange={(e) => HandleChange(e)}></Input>
@@ -107,6 +107,7 @@ function List() {
             </ModalFooter>
           </ModalContent>
         </Modal>
+    </Box>
     </Box>
     </Box>
   )

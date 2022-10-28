@@ -24,13 +24,11 @@ function Boards() {
     boards:[],
     boardName:'',
     isLoading:true,
-    isOpen:false
   })
- console.log(Board);
+
   useEffect(() => {
     API.getAllBoards()
     .then(boards => {
-      console.log(boards);
       setBoard({
         boards : boards,
         isLoading : false,
@@ -50,16 +48,16 @@ const HandleChange = (e) => {
 const createBoard = () => {
    API.createBoards(boardName)
    .then((res) => {
+
       const newBoards = [...Board.boards]
       newBoards.push(res);
       setBoard({
         boards: newBoards,
       })
-   })
+   }).then(() => onClose())
 }
 
   return (
-
     <Box display="flex" flexWrap="wrap">
     {
     !Board.isLoading?(Board.boards.map((board) => {
@@ -87,7 +85,7 @@ const createBoard = () => {
     <Box bg="gray.200" w="20rem" h="10rem" textAlign="center">
        <Button bg="gray.200" mt={14} onClick={onOpen}>Create new board</Button>
        </Box>
-        <Modal isOpen={isOpen}>
+        <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Create a board</ModalHeader>
