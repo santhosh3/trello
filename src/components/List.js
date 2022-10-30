@@ -31,7 +31,7 @@ function List() {
 
    const deleteHandler = (id) => {
     API.deleteList(id,true)
-    .then((res) => {
+    .then(() => {
      const newList = Lists.list.filter((list) => list.id !== id)
      setList({list:newList})
     }).catch((err) => console.log(err))
@@ -48,7 +48,7 @@ function List() {
   .then((res) => {
     const newLists = [...Lists.list]
     newLists.push(res);
-    setList({list:newLists, isOpen:false})
+    setList({list:newLists})
   }).then(() => onClose())
  }
 
@@ -97,7 +97,7 @@ function List() {
             <ModalHeader>Create a list</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <Input placeholder='Enter board title' onChange={(e) => HandleChange(e)}></Input>
+              <Input placeholder='Enter list title' onChange={(e) => HandleChange(e)}></Input>
             </ModalBody>
             <ModalFooter>
               <Button colorScheme='blue' mr={3} onClick={onClose}>

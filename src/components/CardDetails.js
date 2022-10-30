@@ -1,8 +1,10 @@
 import * as API from '../API'
-import React, { useEffect, useState } from 'react'
-import {Box,Input,Text,ModalBody,ModalFooter,ModalCloseButton,ModalHeader,Heading,Button,Modal,ModalContent,ModalOverlay} from '@chakra-ui/react'
+import React, { useEffect, useState} from 'react'
+import {Box,Input,Text,ModalBody,ModalFooter,ModalCloseButton,ModalHeader,Heading,Button,Modal,ModalContent,ModalOverlay, useBoolean} from '@chakra-ui/react'
 import { DeleteIcon } from '@chakra-ui/icons'
 import {useDisclosure } from '@chakra-ui/react';
+import BasicUsage from './BasicUsage';
+import Card from './Card';
 
 function CardDetails({listId}) {
 
@@ -13,19 +15,16 @@ function CardDetails({listId}) {
        cardName : ""
   })
 
-  let [Add,setAdd] = useState(true);
-  let [cardInput,setCardInput] = useState(true);
   let [cardData, setCardData] = useState('');
 
   useEffect(() => {
     API.getCard(listId)
     .then(card => {
-        console.log(card)
         setCard({
             cards:card
         });
     }).catch((err) => console.log(err))
-  })
+  },[])
   
   const deleteHandler = (id) => {
     API.deleteCard(id)
@@ -37,38 +36,36 @@ function CardDetails({listId}) {
 
   const HandleChange = (e) => {
     let {value} = e.target
-    setCardData(value)
+      setCardData(value)
   }
-  
+ 
   const createCard = () => {
      API.createCard(listId,cardData)
      .then((res) => {
+       console.log(res.name)
        const newCards = [...card.cards];
        newCards.push(res);
        setCard({
         cards:newCards,
-        cardName:""
        })
      }).then(() => onClose())
+  }
+  const [flag, setFlag] = useState(false)
+  const flagState = () => {
+    setFlag(true)
+    console.log(flag)
   }
 
   return (
     <Box>
       {
-        card.cards.map((card,index) => {
+        card.cards.map((card) => {
              return (
-              <Box>
-                <Box bg="white" ml={2} mt={4} mb={4} mr={2} key={index} display="flex" justifyContent="space-between" p={2}>
-                <Box key={index}>
-                <Box><Text cursor="pointer">{card.name}</Text></Box>
-               </Box>
-               <Box><DeleteIcon cursor='pointer'onClick={() => {deleteHandler(card.id)}}/></Box>
-               </Box>
-              </Box>
+              <Card card={card} deleteHandler={deleteHandler}/>
              )
         })
-      }
-    <Box>
+      
+      }  
     <Box >
        <Button bg="gray.200" mt={5} onClick={onOpen}>+ Add a card</Button>
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -83,13 +80,12 @@ function CardDetails({listId}) {
               <Button colorScheme='blue' mr={3} onClick={onClose}>
                 Close
               </Button>
-              <Button variant='ghost' onClick={createCard} >+ Add card</Button>
+              <Button variant='ghost' onClick={createCard}>+ Add card</Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
     </Box>
     </Box> 
-    </Box>
   )
 }
 

@@ -23,7 +23,6 @@ function Navbar() {
       More
       </MenuButton>
       </Menu>
-      
       </Heading>
       </Flex>
       </HStack>

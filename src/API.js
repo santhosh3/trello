@@ -33,47 +33,47 @@ export const createCard = async (id, name) => {   //done
         .then(res => res.data);
 }
 
-export const deleteCard = (cardId) => {     //done
-    return axios.delete(`https://api.trello.com/1/cards/${cardId}?key=${key}&token=${token}`)
+export const deleteCard = async (cardId) => {     //done
+    return await axios.delete(`https://api.trello.com/1/cards/${cardId}?key=${key}&token=${token}`)
         .then(res => res.data);
 }
 
-export const deleteList = (id, value) => {   //done
-    return axios.put(`https://api.trello.com/1/lists/${id}/closed?value=${value}&key=${key}&token=${token}`)
+export const deleteList = async (id, value) => {   //done
+    return await axios.put(`https://api.trello.com/1/lists/${id}/closed?value=${value}&key=${key}&token=${token}`)
         .then(res => res.data);
 }
 
-export const getChecklist = (cardId) => {       
-    return  axios.get(`https://api.trello.com/1/cards/${cardId}/checklists?key=${key}&token=${token}`)
+export const getChecklist = async (cardId) => {      //done 
+    return  await axios.get(`https://api.trello.com/1/cards/${cardId}/checklists?key=${key}&token=${token}`)
         .then(res => res.data);
 }
-export const createCheckList = (cardId, name) => {
-    return axios.post(`https://api.trello.com/1/checklists?name=${name}&idCard=${cardId}&key=${key}&token=${token}`)
+export const createCheckList = async(cardId, name) => {    //done
+    return await axios.post(`https://api.trello.com/1/checklists?name=${name}&idCard=${cardId}&key=${key}&token=${token}`)
         .then(res => res.data);
 }
-export const deleteCheckList = (checkListId,) => {
-    return axios.delete(`https://api.trello.com/1/checklists/${checkListId}?key=${key}&token=${token}`)
+export const deleteCheckList = async(checkListId,) => {   //done
+    return await axios.delete(`https://api.trello.com/1/checklists/${checkListId}?key=${key}&token=${token}`)
         .then(res => res.data);
 }
-export const getCheckItems = (checkListId) => {
-    return axios
+export const getCheckItems = async(checkListId) => {   //done
+    return await axios
         .get(`https://api.trello.com/1/checklists/${checkListId}/checkItems?key=${key}&token=${token}`)
         .then(res => res.data)
 }
 
-export const createCheckItems = (checkListId, name) => {
-    return axios
+export const createCheckItems = async (checkListId, name) => {   //done
+    return  await axios
         .post(`https://api.trello.com/1/checklists/${checkListId}/checkItems?name=${name}&key=${key}&token=${token}`)
         .then(res => res.data)
 }
 
-export const deleteCheckItems = (checkListId, checkItemId) => {
-    return axios
+export const deleteCheckItems = async(checkListId, checkItemId) => { //done
+    return await axios
         .delete(`https://api.trello.com/1/checklists/${checkListId}/checkItems/${checkItemId}?key=${key}&token=${token}`)
         .then(res => res.data)
 }
 
-export const strikeCheckItems = (cardId, checkItemId, value) => {
+export const strikeCheckItems = (cardId, checkItemId, value) => {   //
     return axios
         .put(`https://api.trello.com/1/cards/${cardId}/checkItem/${checkItemId}?state=${value}&key=${key}&token=${token}`)
         .then(res => res.data)
