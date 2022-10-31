@@ -73,8 +73,8 @@ export const deleteCheckItems = async(checkListId, checkItemId) => { //done
         .then(res => res.data)
 }
 
-export const strikeCheckItems = (cardId, checkItemId, value) => {   //
-    return axios
+export const strikeCheckItems = async(cardId, checkItemId, value) => {   //
+    return await axios
         .put(`https://api.trello.com/1/cards/${cardId}/checkItem/${checkItemId}?state=${value}&key=${key}&token=${token}`)
         .then(res => res.data)
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import * as API from '../API'
-import {Box,Button,Input} from '@chakra-ui/react'
+import {Box,Button,Heading,Input} from '@chakra-ui/react'
 import {DeleteIcon} from '@chakra-ui/icons'
 import {
     Popover,
@@ -13,6 +13,7 @@ import {
     PopoverCloseButton,
     PopoverAnchor,
   } from "@chakra-ui/react";
+ 
 
 function CheckItems({checklistId}) {
 
@@ -40,12 +41,13 @@ function CheckItems({checklistId}) {
             const newCheckItems = [...checkItems.checkItems1];
             newCheckItems.push(response);
             setCheckItems({checkItems1:newCheckItems});
+            setFlag(false)
         })
     }
 
     const deleteCheckListItems1 =(checkListId,checkItemId) => {
         API.deleteCheckItems(checkListId,checkItemId)
-        .then((res) => {
+        .then(() => {
             const newChekItems = this.state.checkItems.filter((checkItem) => {
                 return checkItem.id !== checkListId && checkItem.id !== checkItemId;
             })
@@ -60,16 +62,23 @@ function CheckItems({checklistId}) {
         setItemName(value);
     }
 
-    const hello = 'hello'
+    const [flag,setFlag] = useState(false);
+    const adding = () => {
+        setFlag(true)
+    }
+    const closeTab = () => {
+        setFlag(false)
+    }
+
   return (
     <Box>
     
        { 
           checkItems.checkItems1.map((checkItem) => {
             return(
-                <Box key={checkItem.id} display='flex'>
+                <Box key={checkItem.id} display='flex' justifyContent="space-between">
                     <Box ml={5} mr={7} fontSize={18}>
-                    <input type='checkbox'/> <lable className="strikethrough">{checkItem.name}</lable>
+                    <Box mt={3}><input type='checkbox'/> <lable className="strikethrough">{checkItem.name}</lable></Box>
                     </Box>
                     <Box ml={8} onClick={() => deleteCheckListItems1(checklistId,checkItem.id)} cursor="pointer">
                     <DeleteIcon />
@@ -78,7 +87,7 @@ function CheckItems({checklistId}) {
             )
           })
        }
-       <Popover placement="bottom" ml="8rem">
+       {/* <Popover placement="bottom" ml="8rem">
          <PopoverTrigger>
             <Button ml={8}>Add an item</Button>
                 </PopoverTrigger>
@@ -86,11 +95,20 @@ function CheckItems({checklistId}) {
                         <PopoverArrow />
                         <PopoverBody><Input placeholder="Add an item..." onChange={(e) => changeHandler(e)} /></PopoverBody>
                         <Box >
-                        <PopoverBody><Button ml="5rem" bg="#026AA7" onClick={createCheckItems} color="white">Add</Button></PopoverBody>
-                        <PopoverCloseButton mt="4.2rem" mr="5rem" fontSize={18} />
+                        <PopoverBody><Button bg="#026AA7" onClick={createCheckItems} color="white">Add</Button></PopoverBody>
+                        <PopoverCloseButton mt="4rem" mr="1rem" fontSize={18} />
                         </Box>
                 </PopoverContent>
-        </Popover>
+        </Popover> */}
+        {flag &&
+            <Box>
+                
+                <Input placeholder="Add an item..." padding={10} m={2} fontSize={30} onChange={(e) => changeHandler(e)}/>
+                <Button colorScheme='blue'm={2} onClick={createCheckItems}>Add</Button>
+                <Button m={2} onClick={closeTab}>cancel</Button>
+            </Box>
+        }
+        {!flag && <Button colorScheme='yellow' mt={3} onClick={adding}>Add an item</Button>}
     </Box>
   )
 }

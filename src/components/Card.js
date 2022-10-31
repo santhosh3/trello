@@ -1,10 +1,22 @@
 import React,{useState,useEffect} from 'react'
-import {Box,Input,Text,ModalBody,ModalFooter,ModalCloseButton,ModalHeader,Heading,Button,Modal,ModalContent,ModalOverlay, useBoolean} from '@chakra-ui/react'
+import {Box,Input,Stack,Text,ModalBody,ModalFooter,ModalCloseButton,ModalHeader,Heading,Button,Modal,ModalContent,ModalOverlay, useBoolean} from '@chakra-ui/react'
 import { DeleteIcon } from '@chakra-ui/icons'
 import {useDisclosure } from '@chakra-ui/react';
 import BasicUsage from './BasicUsage';
 import * as API from '../API'
+import { Progress } from '@chakra-ui/react'
 import CheckItems from './CheckItems';
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverAnchor,
+} from "@chakra-ui/react";
 
 function Card({deleteHandler, card }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -37,7 +49,7 @@ function Card({deleteHandler, card }) {
     setChecklist1(value)
   }
   
-  const [flag2,setFlag2] = useState(true)
+  const [flag2,setFlag2] = useState(false)
 
   const submitChecklist = () => {
       API.createCheckList(id,checkList1)
@@ -45,6 +57,7 @@ function Card({deleteHandler, card }) {
         const newCheckList = [...check.checklist]
         newCheckList.push(res);
         setCheck({checklist : newCheckList})
+        setFlag2(true)
       })
   }
 
@@ -54,6 +67,10 @@ function Card({deleteHandler, card }) {
         const newCheckList = check.checklist.filter((checklist) => checklist.id !== id)
         setCheck({checklist:newCheckList})
       })
+  }
+
+  function open(){
+    setFlag2(false)
   }
 
   return (
@@ -78,19 +95,40 @@ function Card({deleteHandler, card }) {
             <ModalCloseButton />
             <ModalBody>
               <Box display='flex' justifyContent='flex-end'>
-              <BasicUsage changeHandler={changeHandler} submitChecklist={submitChecklist}/>
+                {/*+++++++++++++++++++++++++++++++++++ */}
+              { <Popover>
+                      <PopoverTrigger >
+                      <label  for="checkme" onClick={open}>   <input type="checkbox" name="checkme" /> Check Me! </label>
+                      </PopoverTrigger>
+                      { !flag2 && <PopoverContent>
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverHeader ml={20}>Add checklist</PopoverHeader>
+                        <PopoverBody>
+                        Title
+                          <Input placeholder="checklist" mb={5} onChange={(e) => changeHandler(e)}>
+                          </Input><br/>
+                          <Button onClick={submitChecklist}>Add</Button>
+                        </PopoverBody>
+                      </PopoverContent>}
+           </Popover>}
+           {/* /***************************************************************** */}
+             {/* <BasicUsage changeHandler={changeHandler} submitChecklist={submitChecklist} open={open}/> */}
               </Box>
               {
                  check.checklist.length > 0 ? check.checklist.map((checklist) => 
                    {return (
                      <Box>
                       <Box display='flex' justifyContent='space-between' key={checklist.id} mt={4}>
-                        <Box >{checklist.name}</Box>
+                      <Stack spacing={4}>
+                      <Text fontSize='3xl' as='b'>{checklist.name}</Text>
+                      </Stack>
                         <Box>
                           <Button colorScheme='red' cursor='pointer' onClick={() => deleteCheckListItems(checklist.id)}>Delete</Button>
                         </Box>
                       </Box>
                        <Box>
+                       80%  <Progress mb={4} value={100} />
                         <CheckItems checklistId={checklist.id}/>
                        </Box>
                      </Box>

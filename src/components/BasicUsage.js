@@ -26,28 +26,27 @@ import {
 } from "@chakra-ui/react";
 import { Checkbox, CheckboxGroup } from "@chakra-ui/react";
 
-function BasicUsage({ changeHandler, submitChecklist }) {
-  const { isOpen, onOpen, onClose ,onCancel} = useDisclosure();
+function BasicUsage({ changeHandler, submitChecklist ,flag2,open}) {
+  
 
   return (
     
     <Popover>
     <PopoverTrigger >
-    <label  for="checkme">   <input type="checkbox" name="checkme" /> Check Me! </label>
+    <label  for="checkme" onClick={open}>   <input type="checkbox" name="checkme" /> Check Me! </label>
     </PopoverTrigger>
-    <PopoverContent>
+    { !flag2 && <PopoverContent>
       <PopoverArrow />
       <PopoverCloseButton />
       <PopoverHeader ml={20}>Add checklist</PopoverHeader>
       <PopoverBody>
       Title
-       <Input placeholder="checklist" mb={5} onChange={(e) => changeHandler(e)}>
-       </Input><br/>
-       <Button onClick={submitChecklist}>Add</Button>
-       <Button variant="outline" onClick={onCancel}> Cancel </Button> 
+        <Input placeholder="checklist" mb={5} onChange={(e) => changeHandler(e)}>
+        </Input><br/>
+        <Button onClick={submitChecklist}>Add</Button>
       </PopoverBody>
-    </PopoverContent>
-    </Popover>
+    </PopoverContent>}
+</Popover>
 
   );
 }

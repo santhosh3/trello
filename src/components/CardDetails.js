@@ -1,10 +1,11 @@
 import * as API from '../API'
 import React, { useEffect, useState} from 'react'
 import {Box,Input,Text,ModalBody,ModalFooter,ModalCloseButton,ModalHeader,Heading,Button,Modal,ModalContent,ModalOverlay, useBoolean} from '@chakra-ui/react'
-import { DeleteIcon } from '@chakra-ui/icons'
+import { DeleteIcon,CloseIcon } from '@chakra-ui/icons'
 import {useDisclosure } from '@chakra-ui/react';
 import BasicUsage from './BasicUsage';
 import Card from './Card';
+
 
 function CardDetails({listId}) {
 
@@ -48,17 +49,21 @@ function CardDetails({listId}) {
        setCard({
         cards:newCards,
        })
+       setFlag(false)
      }).then(() => onClose())
   }
-  const [flag, setFlag] = useState(false)
-  const flagState = () => {
-    setFlag(true)
-    console.log(flag)
+
+  let [flag, setFlag] = useState(false);
+  function trigger(){
+     setFlag(true);
   }
 
+  function closing(){
+    setFlag(false);
+  }
   return (
     <Box>
-      {
+      {       
         card.cards.map((card) => {
              return (
               <Card card={card} deleteHandler={deleteHandler}/>
@@ -66,7 +71,7 @@ function CardDetails({listId}) {
         })
       
       }  
-    <Box >
+    {/* <Box >
        <Button bg="gray.200" mt={5} onClick={onOpen}>+ Add a card</Button>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
@@ -84,6 +89,19 @@ function CardDetails({listId}) {
             </ModalFooter>
           </ModalContent>
         </Modal>
+    </Box> */}
+
+
+    <Box>
+       {flag && 
+       <Box> 
+      <Input bg="white" placeholder='Enter card title' padding="2" onChange={(e) => HandleChange(e)} />
+      <Button colorScheme='green' mt={4} onClick={createCard}>Add card</Button>
+      <Button colorScheme='red' ml={3} mt={4} onClick={closing}>
+      <CloseIcon />
+      </Button>
+      </Box>}
+     {!flag && <Button onClick={trigger}>+ Add a card</Button> }
     </Box>
     </Box> 
   )
